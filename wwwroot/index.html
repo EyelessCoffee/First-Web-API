@@ -29,12 +29,23 @@
 
         // loop through each note
         notes.forEach(note => {
-
             // create a list item
             let item = document.createElement("li");
             // set the content of the list item
             item.textContent = 
-                `${notes.indexOf(note)}  -> ${note.time}: ${note.noteContent}`;
+                `At ${note.time}: ${note.noteContent}    <- `;
+            
+            // create a delete button
+            let deleteButton = document.createElement("button");
+            deleteButton.textContent = "X";
+            let noteIndex = notes.indexOf(note);
+
+            deleteButton.onclick = function(){
+                deleteNote(noteIndex);
+            };        
+
+            // add the delete button to the list item
+            item.appendChild(deleteButton);
             // add the item to the list
             list.appendChild(item);
         });
@@ -58,6 +69,14 @@
         // clear the list
         input.value = "";
         // display the new note list
+        displayNoteList();
+    }
+
+    async function deleteNote(index) {
+        await fetch(`http://localhost:5113/notes/${encodeURIComponent(index)}`,{
+            method: "DELETE"
+        });
+
         displayNoteList();
     }
 
