@@ -7,28 +7,60 @@
     <h1> My Notes </h1>
     <ul id ="notes"></ul>
 
-    <input type = "text", id = "noteInput">
-    <button id = "postButton">Post Note</button>
+    <input type = "text" id = "noteInput">
+    <button id = "postButton" onclick = "postNote()">
+        Post Note
+    </button>
 
     <script>
-
-    async function getNotes() {
+    
+    // displays all notes from the NoteHolder
+    async function displayNoteList() {
+        // response being the json file sent by the program
         let response = await fetch("http://localhost:5113/notes");
+        // decode the json file
         let notes = await response.json();
 
+        // get the unordered list element from up there ^
         let list = document.getElementById("notes");
+        // clear the list, appendChild just adds to the list
+        // it doesn't replace it
+        list.innerHTML = "";
 
+        // loop through each note
         notes.forEach(note => {
-            console.log(note);
 
+            // create a list item
             let item = document.createElement("li");
+            // set the content of the list item
             item.textContent = 
                 `${notes.indexOf(note)}  -> ${note.time}: ${note.noteContent}`;
+            // add the item to the list
             list.appendChild(item);
         });
     }
 
-    getNotes();
+    // always display when the page is loaded
+    displayNoteList();
+
+    // is called onclick of the postButton
+    async function postNote() {
+        // get the 'noteInput' text input
+        let input = document.getElementById("noteInput");
+        // get the current text written in it
+        let content = input.value;
+
+        // send the post request
+        await fetch(`http://localhost:5113/notes?noteContent=${encodeURIComponent(content)}`,{
+            method: "POST"
+        });
+
+        // clear the list
+        input.value = "";
+        // display the new note list
+        displayNoteList();
+    }
+
     </script>
 </body>
 </html>
