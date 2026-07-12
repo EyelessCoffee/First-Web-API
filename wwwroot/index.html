@@ -2,8 +2,33 @@
 <html>
 <head>
     <title>Notes</title>
-    <h1> My Notes </h1>
-<body>
-</body>
 </head>
+<body>
+    <h1> My Notes </h1>
+    <ul id ="notes"></ul>
+
+    <input type = "text", id = "noteInput">
+    <button id = "postButton">Post Note</button>
+
+    <script>
+
+    async function getNotes() {
+        let response = await fetch("http://localhost:5113/notes");
+        let notes = await response.json();
+
+        let list = document.getElementById("notes");
+
+        notes.forEach(note => {
+            console.log(note);
+
+            let item = document.createElement("li");
+            item.textContent = 
+                `${notes.indexOf(note)}  -> ${note.time}: ${note.noteContent}`;
+            list.appendChild(item);
+        });
+    }
+
+    getNotes();
+    </script>
+</body>
 </html>
