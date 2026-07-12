@@ -31,6 +31,15 @@ if (File.Exists("notes.json"))
 // Meaning the app can respond to GET, POST, DELETE, etc. requests
 app.UseHttpsRedirection();
 
+// makes the index.html the automatic home page for the url
+// needs to be before app.UseStaticFiles();
+app.UseDefaultFiles();
+
+// Adds functionality to automatically respond 
+// to requests for the wwwroot folder
+// (allows my html file to auto load)
+app.UseStaticFiles();
+
 // Get all notes
 app.MapGet("/notes", () => 
 {
