@@ -24,7 +24,7 @@ A note-taking application built with ASP.NET Core Web API, created to learn how 
 - Designing REST endpoints and minimal API routing in ASP.NET Core
 - JSON serialization and request/response binding
 - Debugging endpoint parameter binding issues
-- 
+  
 ## How to run
  
 ```bash
